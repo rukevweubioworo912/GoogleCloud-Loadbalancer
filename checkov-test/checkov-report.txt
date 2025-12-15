@@ -1,0 +1,379 @@
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.2.495 
+
+terraform scan results:
+
+Passed checks: 17, Failed checks: 9, Skipped checks: 0
+
+Check: CKV_GCP_74: "Ensure that private_ip_google_access is enabled for Subnet"
+	PASSED for resource: google_compute_subnetwork.devops_subnet
+	File: /main.tf:10-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/ensure-gcp-subnet-has-a-private-ip-google-access
+Check: CKV_GCP_3: "Ensure Google compute firewall ingress does not allow unrestricted rdp access"
+	PASSED for resource: google_compute_firewall.allow_devops_ports
+	File: /main.tf:21-50
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-2
+Check: CKV_GCP_77: "Ensure Google compute firewall ingress does not allow on ftp port"
+	PASSED for resource: google_compute_firewall.allow_devops_ports
+	File: /main.tf:21-50
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/ensure-gcp-google-compute-firewall-ingress-does-not-allow-ftp-port-20-access
+Check: CKV_GCP_88: "Ensure Google compute firewall ingress does not allow unrestricted mysql access"
+	PASSED for resource: google_compute_firewall.allow_devops_ports
+	File: /main.tf:21-50
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/ensure-gcp-compute-firewall-ingress-does-not-allow-unrestricted-mysql-access
+Check: CKV_GCP_75: "Ensure Google compute firewall ingress does not allow unrestricted FTP access"
+	PASSED for resource: google_compute_firewall.allow_devops_ports
+	File: /main.tf:21-50
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/ensure-gcp-google-compute-firewall-ingress-does-not-allow-unrestricted-ftp-access
+Check: CKV_GCP_34: "Ensure that no instance in the project overrides the project setting for enabling OSLogin(OSLogin needs to be enabled in project metadata for all instances)"
+	PASSED for resource: google_compute_instance.devops_vm[0]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-10
+Check: CKV_GCP_36: "Ensure that IP forwarding is not enabled on Instances"
+	PASSED for resource: google_compute_instance.devops_vm[0]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-12
+Check: CKV_GCP_35: "Ensure 'Enable connecting to serial ports' is not enabled for VM Instance"
+	PASSED for resource: google_compute_instance.devops_vm[0]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-11
+Check: CKV_GCP_39: "Ensure Compute instances are launched with Shielded VM enabled"
+	PASSED for resource: google_compute_instance.devops_vm[0]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/bc-gcp-general-y
+Check: CKV_GCP_31: "Ensure that instances are not configured to use the default service account with full access to all Cloud APIs"
+	PASSED for resource: google_compute_instance.devops_vm[0]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-iam-policies/bc-gcp-iam-2
+Check: CKV_GCP_34: "Ensure that no instance in the project overrides the project setting for enabling OSLogin(OSLogin needs to be enabled in project metadata for all instances)"
+	PASSED for resource: google_compute_instance.devops_vm[1]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-10
+Check: CKV_GCP_36: "Ensure that IP forwarding is not enabled on Instances"
+	PASSED for resource: google_compute_instance.devops_vm[1]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-12
+Check: CKV_GCP_35: "Ensure 'Enable connecting to serial ports' is not enabled for VM Instance"
+	PASSED for resource: google_compute_instance.devops_vm[1]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-11
+Check: CKV_GCP_39: "Ensure Compute instances are launched with Shielded VM enabled"
+	PASSED for resource: google_compute_instance.devops_vm[1]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/bc-gcp-general-y
+Check: CKV_GCP_31: "Ensure that instances are not configured to use the default service account with full access to all Cloud APIs"
+	PASSED for resource: google_compute_instance.devops_vm[1]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-iam-policies/bc-gcp-iam-2
+Check: CKV2_GCP_18: "Ensure GCP network defines a firewall and does not use the default firewall"
+	PASSED for resource: google_compute_network.devops_vpc
+	File: /main.tf:4-7
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-2-18
+Check: CKV2_GCP_12: "Ensure GCP compute firewall ingress does not allow unrestricted access to all ports"
+	PASSED for resource: google_compute_firewall.allow_devops_ports
+	File: /main.tf:21-50
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/ensure-gcp-google-compute-firewall-ingress-does-not-allow-unrestricted-access-to-all-ports
+Check: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: google_compute_subnetwork.devops_subnet
+	File: /main.tf:10-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+
+		10 | resource "google_compute_subnetwork" "devops_subnet" {
+		11 |   name          = "devops-subnet"
+		12 |   ip_cidr_range = "10.0.1.0/24"
+		13 |   region        = var.region
+		14 |   network       = google_compute_network.devops_vpc.id
+		15 |   #enable_flow_logs        = true
+		16 |   private_ip_google_access = true
+		17 |   
+		18 | }
+
+Check: CKV_GCP_2: "Ensure Google compute firewall ingress does not allow unrestricted ssh access"
+	FAILED for resource: google_compute_firewall.allow_devops_ports
+	File: /main.tf:21-50
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-1
+
+		21 | resource "google_compute_firewall" "allow_devops_ports" {
+		22 |   name    = "allow-devops-ports"
+		23 |   network = google_compute_network.devops_vpc.name
+		24 |   target_tags = ["devops-server"]
+		25 | 
+		26 |   # SSH, restricted to public access (for now)
+		27 |   allow {
+		28 |     protocol = "tcp"
+		29 |     ports    = ["22"]
+		30 |   }
+		31 | 
+		32 |   # Allow HTTP/HTTPS access to the app
+		33 |   allow {
+		34 |     protocol = "tcp"
+		35 |     ports    = ["80", "443"]
+		36 |   }
+		37 | 
+		38 |   # Docker Swarm ports
+		39 |   allow {
+		40 |     protocol = "tcp"
+		41 |     ports    = ["2377", "7946"]
+		42 |   }
+		43 |   allow {
+		44 |     protocol = "udp"
+		45 |     ports    = ["7946", "4789"]
+		46 |   }
+		47 | 
+		48 |   # Open to all IPs (for public access)
+		49 |   source_ranges = ["0.0.0.0/0"]
+		50 | }
+
+Check: CKV_GCP_106: "Ensure Google compute firewall ingress does not allow unrestricted http port 80 access"
+	FAILED for resource: google_compute_firewall.allow_devops_ports
+	File: /main.tf:21-50
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/ensure-gcp-google-compute-firewall-ingress-does-not-allow-unrestricted-http-port-80-access
+
+		21 | resource "google_compute_firewall" "allow_devops_ports" {
+		22 |   name    = "allow-devops-ports"
+		23 |   network = google_compute_network.devops_vpc.name
+		24 |   target_tags = ["devops-server"]
+		25 | 
+		26 |   # SSH, restricted to public access (for now)
+		27 |   allow {
+		28 |     protocol = "tcp"
+		29 |     ports    = ["22"]
+		30 |   }
+		31 | 
+		32 |   # Allow HTTP/HTTPS access to the app
+		33 |   allow {
+		34 |     protocol = "tcp"
+		35 |     ports    = ["80", "443"]
+		36 |   }
+		37 | 
+		38 |   # Docker Swarm ports
+		39 |   allow {
+		40 |     protocol = "tcp"
+		41 |     ports    = ["2377", "7946"]
+		42 |   }
+		43 |   allow {
+		44 |     protocol = "udp"
+		45 |     ports    = ["7946", "4789"]
+		46 |   }
+		47 | 
+		48 |   # Open to all IPs (for public access)
+		49 |   source_ranges = ["0.0.0.0/0"]
+		50 | }
+
+Check: CKV_GCP_38: "Ensure VM disks for critical VMs are encrypted with Customer Supplied Encryption Keys (CSEK)"
+	FAILED for resource: google_compute_instance.devops_vm[0]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/encrypt-boot-disks-for-instances-with-cseks
+
+		54 | resource "google_compute_instance" "devops_vm" {
+		55 |   count        = 2
+		56 |   name         = "devops-vm-${count.index + 1}"
+		57 |   machine_type = var.machine_type
+		58 |   zone         = var.zone
+		59 |   tags         = ["devops-server"]
+		60 | 
+		61 |   boot_disk {
+		62 |     initialize_params {
+		63 |       image = "ubuntu-os-cloud/ubuntu-2204-lts"
+		64 |       size  = 30
+		65 |     }
+		66 |   }
+		67 | 
+		68 |   network_interface {
+		69 |     subnetwork = google_compute_subnetwork.devops_subnet.id
+		70 |     access_config {} # public IP
+		71 |   }
+		72 | 
+		73 |   shielded_instance_config {
+		74 |     enable_secure_boot          = true
+		75 |     enable_vtpm                 = true
+		76 |     enable_integrity_monitoring = true
+		77 |   }
+		78 | 
+		79 |   metadata = {
+		80 |     ssh-keys = "${var.ssh_user}:${file(var.ssh_public_key_path)}"
+		81 |   }
+		82 | }
+
+Check: CKV_GCP_40: "Ensure that Compute instances do not have public IP addresses"
+	FAILED for resource: google_compute_instance.devops_vm[0]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-public-policies/bc-gcp-public-2
+
+		54 | resource "google_compute_instance" "devops_vm" {
+		55 |   count        = 2
+		56 |   name         = "devops-vm-${count.index + 1}"
+		57 |   machine_type = var.machine_type
+		58 |   zone         = var.zone
+		59 |   tags         = ["devops-server"]
+		60 | 
+		61 |   boot_disk {
+		62 |     initialize_params {
+		63 |       image = "ubuntu-os-cloud/ubuntu-2204-lts"
+		64 |       size  = 30
+		65 |     }
+		66 |   }
+		67 | 
+		68 |   network_interface {
+		69 |     subnetwork = google_compute_subnetwork.devops_subnet.id
+		70 |     access_config {} # public IP
+		71 |   }
+		72 | 
+		73 |   shielded_instance_config {
+		74 |     enable_secure_boot          = true
+		75 |     enable_vtpm                 = true
+		76 |     enable_integrity_monitoring = true
+		77 |   }
+		78 | 
+		79 |   metadata = {
+		80 |     ssh-keys = "${var.ssh_user}:${file(var.ssh_public_key_path)}"
+		81 |   }
+		82 | }
+
+Check: CKV_GCP_32: "Ensure 'Block Project-wide SSH keys' is enabled for VM instances"
+	FAILED for resource: google_compute_instance.devops_vm[0]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-8
+
+		54 | resource "google_compute_instance" "devops_vm" {
+		55 |   count        = 2
+		56 |   name         = "devops-vm-${count.index + 1}"
+		57 |   machine_type = var.machine_type
+		58 |   zone         = var.zone
+		59 |   tags         = ["devops-server"]
+		60 | 
+		61 |   boot_disk {
+		62 |     initialize_params {
+		63 |       image = "ubuntu-os-cloud/ubuntu-2204-lts"
+		64 |       size  = 30
+		65 |     }
+		66 |   }
+		67 | 
+		68 |   network_interface {
+		69 |     subnetwork = google_compute_subnetwork.devops_subnet.id
+		70 |     access_config {} # public IP
+		71 |   }
+		72 | 
+		73 |   shielded_instance_config {
+		74 |     enable_secure_boot          = true
+		75 |     enable_vtpm                 = true
+		76 |     enable_integrity_monitoring = true
+		77 |   }
+		78 | 
+		79 |   metadata = {
+		80 |     ssh-keys = "${var.ssh_user}:${file(var.ssh_public_key_path)}"
+		81 |   }
+		82 | }
+
+Check: CKV_GCP_38: "Ensure VM disks for critical VMs are encrypted with Customer Supplied Encryption Keys (CSEK)"
+	FAILED for resource: google_compute_instance.devops_vm[1]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/encrypt-boot-disks-for-instances-with-cseks
+
+		54 | resource "google_compute_instance" "devops_vm" {
+		55 |   count        = 2
+		56 |   name         = "devops-vm-${count.index + 1}"
+		57 |   machine_type = var.machine_type
+		58 |   zone         = var.zone
+		59 |   tags         = ["devops-server"]
+		60 | 
+		61 |   boot_disk {
+		62 |     initialize_params {
+		63 |       image = "ubuntu-os-cloud/ubuntu-2204-lts"
+		64 |       size  = 30
+		65 |     }
+		66 |   }
+		67 | 
+		68 |   network_interface {
+		69 |     subnetwork = google_compute_subnetwork.devops_subnet.id
+		70 |     access_config {} # public IP
+		71 |   }
+		72 | 
+		73 |   shielded_instance_config {
+		74 |     enable_secure_boot          = true
+		75 |     enable_vtpm                 = true
+		76 |     enable_integrity_monitoring = true
+		77 |   }
+		78 | 
+		79 |   metadata = {
+		80 |     ssh-keys = "${var.ssh_user}:${file(var.ssh_public_key_path)}"
+		81 |   }
+		82 | }
+
+Check: CKV_GCP_40: "Ensure that Compute instances do not have public IP addresses"
+	FAILED for resource: google_compute_instance.devops_vm[1]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-public-policies/bc-gcp-public-2
+
+		54 | resource "google_compute_instance" "devops_vm" {
+		55 |   count        = 2
+		56 |   name         = "devops-vm-${count.index + 1}"
+		57 |   machine_type = var.machine_type
+		58 |   zone         = var.zone
+		59 |   tags         = ["devops-server"]
+		60 | 
+		61 |   boot_disk {
+		62 |     initialize_params {
+		63 |       image = "ubuntu-os-cloud/ubuntu-2204-lts"
+		64 |       size  = 30
+		65 |     }
+		66 |   }
+		67 | 
+		68 |   network_interface {
+		69 |     subnetwork = google_compute_subnetwork.devops_subnet.id
+		70 |     access_config {} # public IP
+		71 |   }
+		72 | 
+		73 |   shielded_instance_config {
+		74 |     enable_secure_boot          = true
+		75 |     enable_vtpm                 = true
+		76 |     enable_integrity_monitoring = true
+		77 |   }
+		78 | 
+		79 |   metadata = {
+		80 |     ssh-keys = "${var.ssh_user}:${file(var.ssh_public_key_path)}"
+		81 |   }
+		82 | }
+
+Check: CKV_GCP_32: "Ensure 'Block Project-wide SSH keys' is enabled for VM instances"
+	FAILED for resource: google_compute_instance.devops_vm[1]
+	File: /main.tf:54-82
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-8
+
+		54 | resource "google_compute_instance" "devops_vm" {
+		55 |   count        = 2
+		56 |   name         = "devops-vm-${count.index + 1}"
+		57 |   machine_type = var.machine_type
+		58 |   zone         = var.zone
+		59 |   tags         = ["devops-server"]
+		60 | 
+		61 |   boot_disk {
+		62 |     initialize_params {
+		63 |       image = "ubuntu-os-cloud/ubuntu-2204-lts"
+		64 |       size  = 30
+		65 |     }
+		66 |   }
+		67 | 
+		68 |   network_interface {
+		69 |     subnetwork = google_compute_subnetwork.devops_subnet.id
+		70 |     access_config {} # public IP
+		71 |   }
+		72 | 
+		73 |   shielded_instance_config {
+		74 |     enable_secure_boot          = true
+		75 |     enable_vtpm                 = true
+		76 |     enable_integrity_monitoring = true
+		77 |   }
+		78 | 
+		79 |   metadata = {
+		80 |     ssh-keys = "${var.ssh_user}:${file(var.ssh_public_key_path)}"
+		81 |   }
+		82 | }
+
+

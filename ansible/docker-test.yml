@@ -1,0 +1,75 @@
+---
+- name: Ensure required Ansible collection on controller
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: Install community.docker collection
+      ansible.builtin.command: ansible-galaxy collection install community.docker
+      args:
+        creates: "{{ ansible_env.HOME }}/.ansible/collections/ansible_collections/community/docker"
+
+- name: Deploy Book Review App on Master VM
+  hosts: manager
+  become: true
+  vars:
+    app_dir: /home/devops/book-review-app  # directory where the repo will be cloned
+    master_ip: "{{ ansible_host }}"        # automatically set to the IP of the master VM
+
+  tasks:
+    - name: Ensure git is installed
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+
+    - name: Install required packages including pip3
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+          - python3-pip
+        state: present
+
+    - name: Ensure Python Docker SDK is installed
+      pip:
+        name: docker
+        executable: pip3
+
+    - name: Clone the book-review-app repository
+      git:
+        repo: https://github.com/pravinmishraaws/book-review-app.git
+        dest: "{{ app_dir }}"
+        version: main
+        force: yes
+
+    - name: Update Docker Compose file with backend IP
+      replace:
+        path: "{{ app_dir }}/docker-compose.yml"
+        regexp: '(http://)<BACKEND_PUBLIC_IP>(:3001)'
+        replace: '\1{{ master_ip }}\2'
+
+    - name: Update Docker Compose file with frontend allowed origins
+      replace:
+        path: "{{ app_dir }}/docker-compose.yml"
+        regexp: '(http://)<FRONTEND_PUBLIC_IP>(:3000)'
+        replace: '\1{{ master_ip }}\2'
+
+    - name: Install Docker Compose plugin (v2) system-wide
+      shell: |
+        mkdir -p /usr/local/lib/docker/cli-plugins
+        curl -SL https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+        chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+      args:
+        creates: /usr/local/lib/docker/cli-plugins/docker-compose
+
+    - name: Run the app using Docker Compose v2
+      community.docker.docker_compose_v2:
+        project_src: "{{ app_dir }}"
+        state: present
+        build: always
+        pull: always       # changed from "missing" or False
+        recreate: always   # valid value: always, never, auto
+        restarted: always  # valid value: always, no, unless-stopped

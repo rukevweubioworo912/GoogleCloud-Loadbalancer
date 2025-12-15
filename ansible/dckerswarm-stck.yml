@@ -1,0 +1,25 @@
+- name: Deploy Book Review App on Docker Swarm
+  hosts: manager
+  become: true
+  vars:
+    app_dir: /home/devops/book-review-app
+
+  tasks:
+    - name: Ensure Python Docker SDK is installed
+      pip:
+        name: docker
+        executable: pip3
+
+    - name: Ensure jsondiff Python package is installed
+      pip:
+        name: jsondiff
+        executable: pip3
+
+    - name: Deploy Docker stack in Swarm
+      community.docker.docker_stack:
+        name: book-review-app
+        state: present
+        compose:
+          - "{{ app_dir }}/docker-stack.yml"
+        detach: yes
+        docker_cli: /usr/bin/docker

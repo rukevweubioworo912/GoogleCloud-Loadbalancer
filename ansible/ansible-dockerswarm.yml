@@ -1,0 +1,108 @@
+---
+- name: Deploy Book Review App from Docker Hub to Docker Swarm
+  hosts: manager
+  become: true
+  collections:
+    - community.docker
+  vars:
+    project_name: book-review-app
+    replicas_backend: 2
+    replicas_frontend: 1
+    image_backend: "rukevweubio/book-review-app_backend:latest"
+    image_frontend: "rukevweubio/book-review-app_frontend:latest"
+    image_mysql: "rukevweubio/book-review-app-database:latest"
+    db_port: 3306
+    backend_port: 3001
+    frontend_port: 3000
+    app_dir: "/home/devops/book-review-app"
+
+  tasks:
+    - name: Ensure Python Docker SDK is installed
+      pip:
+        name: docker
+        executable: pip3
+
+    - name: Pull MySQL image from Docker Hub
+      community.docker.docker_image:
+        name: "{{ image_mysql }}"
+        source: pull
+
+    - name: Pull Backend image from Docker Hub
+      community.docker.docker_image:
+        name: "{{ image_backend }}"
+        source: pull
+
+    - name: Pull Frontend image from Docker Hub
+      community.docker.docker_image:
+        name: "{{ image_frontend }}"
+        source: pull
+
+    - name: Create Docker Stack file
+      copy:
+        dest: "{{ app_dir }}/docker-stack.yml"
+        content: |
+          version: "3.8"
+          services:
+            mysql:
+              image: "{{ image_mysql }}"
+              environment:
+                MYSQL_ROOT_PASSWORD: my-secret-pw
+                MYSQL_DATABASE: book_review_db
+                MYSQL_USER: pravin
+                MYSQL_PASSWORD: Demo12@Test23
+              ports:
+                - "{{ db_port }}:3306"
+              networks:
+                - app_net
+              deploy:
+                replicas: 1
+                restart_policy:
+                  condition: any
+
+            backend:
+              image: "{{ image_backend }}"
+              environment:
+                PORT: 3001
+                DB_HOST: mysql
+                DB_NAME: book_review_db
+                DB_USER: pravin
+                DB_PASS: Demo12@Test23
+                DB_DIALECT: mysql
+                JWT_SECRET: mysecretkey
+                ALLOWED_ORIGINS: "http://{{ ansible_host }}:3000"
+              ports:
+                - "{{ backend_port }}:3001"
+              networks:
+                - app_net
+              deploy:
+                replicas: "{{ replicas_backend }}"
+                restart_policy:
+                  condition: any
+
+            frontend:
+              image: "{{ image_frontend }}"
+              environment:
+                NEXT_PUBLIC_API_URL: "http://{{ ansible_host }}:3001"
+              ports:
+                - "{{ frontend_port }}:3000"
+              networks:
+                - app_net
+              deploy:
+                replicas: "{{ replicas_frontend }}"
+                restart_policy:
+                  condition: any
+
+          networks:
+            app_net:
+              driver: overlay
+
+    - name: Deploy Docker stack in Swarm
+      community.docker.docker_stack:
+        name: book-review-app
+        state: present
+        compose:
+          - "{{ app_dir }}/docker-stack.yml"   # remote path to your stack file
+        detach: yes
+        docker_cli: /usr/bin/docker
+
+
